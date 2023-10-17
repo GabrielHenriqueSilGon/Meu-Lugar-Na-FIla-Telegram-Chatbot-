@@ -15,23 +15,6 @@ class Pessoa:
 
 fila: list[Pessoa] = []
 
-#fila.append(Pessoa ("Nerd", 1500, 30, 90))
-#fila.append(Pessoa ("Nerd2", 1502, 150, 180))
-#fila.append(Pessoa ("Nerd3", 1503, 200, 270))
-
-
-#for Pessoa in fila:
-    #print(Pessoa.nome, Pessoa.id_do_chat, Pessoa.tempo_ate_atender, Pessoa.tempo_ate_fim_de_consulta)
-
-#print("\nElements dequeued from queue")
-#print(fila.pop(0).nome)
-#print(fila.pop(0).nome)
-#print(fila.pop(0).nome)
-
-#print("\ntamanho")
-#textor = ("Atualmente, a fila tem %d membros") %len(fila)
-#print(textor)
-
 @bot.message_handler(commands=["sim"])
 def sim(mensagem):
     n = mensagem.chat.id
@@ -64,7 +47,7 @@ def registrar(mensagem):
 @bot.message_handler(commands=["mensagem"])
 def mensagem(mensagem):
     msg_quebrada = mensagem.text.split()
-    id_rec = msg_quebrada(1)
+    id_rec = int(msg_quebrada(1))
     msg_quebrada.remove(0)
     msg_quebrada.remove(1)
     texto = " ".join(msg_quebrada)
@@ -109,7 +92,7 @@ def editar(mensagem):
     bot.send_message(msg_quebrada[1], f"Seu horário foi editado para {msg_quebrada[2]} até {msg_quebrada[3]}.")
     bot.send_message(msg_quebrada[1], f"Se houver alguma reclamação, digite sua resposta após /responder. (Ex: /responder preciso de ajuda)")
     for x in fila:
-        if x.id_do_chat == msg_quebrada[1]:
+        if x.id_do_chat == int(msg_quebrada[1]):
             x.tempo_ate_atender = msg_quebrada[2]
             x.tempo_ate_fim_de_consulta = msg_quebrada[3]
             break
