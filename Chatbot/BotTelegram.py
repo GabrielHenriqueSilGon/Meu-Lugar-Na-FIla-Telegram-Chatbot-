@@ -27,8 +27,7 @@ def sim(mensagem):
     Nome: {mensagem.from_user.first_name} {mensagem.from_user.last_name}
     ID: {mensagem.chat.id}
     /registrar Registra a pessoa na fila, favor escrever o horário previsto para atender e o de termino no formato 00:00 após o comando (Ex: /registrar 15:20 16:50)
-    /negar Tira a pessoa da fila. Favor colocar o ID do destinatário após o comando (Ex: /negar 5555555555)
-    /mensagem Manda uma mensagem para o(a) dono(a) da requisição. Favor colocar o ID do destinatário após o comando (Ex: /mensagem 5555555555 Atendimento inalcançãvel, favor retornar mais tarde)""")
+    /negar Tira a pessoa da fila. Favor colocar o ID do destinatário após o comando (Ex: /negar 5555555555)""")
     bot.send_message(ID_ADM, texto)
 
 @bot.message_handler(commands=["registrar"])
@@ -44,24 +43,6 @@ def registrar(mensagem):
             x.tempo_ate_fim_de_consulta = msg_quebrada[2]
             break
 
-@bot.message_handler(commands=["mensagem"])
-def mensagem(mensagem):
-    msg_quebrada = mensagem.text.split()
-    id_rec = int(msg_quebrada(1))
-    msg_quebrada.remove(0)
-    msg_quebrada.remove(1)
-    texto = " ".join(msg_quebrada)
-    bot.send_message(id_rec, texto)
-    bot.send_message(id_rec, "Para responder, digite sua resposta após /responder. (Ex: /responder preciso de ajuda)")
-
-@bot.message_handler(commands=["responder"])
-def responder(mensagem):
-    msg_quebrada = mensagem.text.split()
-    msg_quebrada.remove(0)
-    texto = " ".join(msg_quebrada)
-    bot.send_message(ID_ADM, texto)
-    bot.send_message(ID_ADM, f"ID do chat: {mensagem.chat.id}. Para responder, digite /mensagem ID [texto de resposta]")
-
 @bot.message_handler(commands=["negar"])
 def negar(mensagem):
     if mensagem.chat.id != ID_ADM:
@@ -72,7 +53,6 @@ def negar(mensagem):
             fila.remove(x)
     bot.send_message(mensagem.chat.id, "Negação concluída.")
     bot.send_message(msg_quebrada[1], "Infelizmente seu lugar foi negado, tente mais tarde.")
-    bot.send_message(msg_quebrada[1], "Para entrar em contato, digite sua mensagem após /responder. (Ex: /responder preciso de ajuda)")
 
 @bot.message_handler(commands=["finalizar"])
 def finalizar(mensagem):
@@ -90,7 +70,7 @@ def editar(mensagem):
     if len(msg_quebrada) != 4:
         bot.send_message(mensagem.chat.id, "Formatação incorreta")
     bot.send_message(msg_quebrada[1], f"Seu horário foi editado para {msg_quebrada[2]} até {msg_quebrada[3]}.")
-    bot.send_message(msg_quebrada[1], f"Se houver alguma reclamação, digite sua resposta após /responder. (Ex: /responder preciso de ajuda)")
+    bot.send_message(msg_quebrada[1], f"Se houver alguma reclamação, entre em contato com o hospital")
     for x in fila:
         if x.id_do_chat == int(msg_quebrada[1]):
             x.tempo_ate_atender = msg_quebrada[2]
