@@ -1,8 +1,8 @@
 import telebot
 
-ID_ADM = 5120345331
+ID_ADM = <ID DO AM AQUI>
 
-CHAVE_API = "6667065980:AAH-cee6ABvdKELBJHFEyZUDnuo3Num8nqw"
+CHAVE_API = "<CHAVE API DO SEU BOT AQUI>"
 
 bot = telebot.TeleBot(CHAVE_API)
 
